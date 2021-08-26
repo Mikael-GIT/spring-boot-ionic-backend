@@ -1,4 +1,6 @@
-package com.mikael.cursomc;
+package com.mikael.cursomc.domain;
+
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +41,23 @@ public class Category {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Category)) {
+            return false;
+        }
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
 
