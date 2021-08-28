@@ -3,9 +3,13 @@ package com.mikael.cursomc;
 import java.util.Arrays;
 
 import com.mikael.cursomc.domain.Category;
+import com.mikael.cursomc.domain.City;
 import com.mikael.cursomc.domain.Product;
+import com.mikael.cursomc.domain.State;
 import com.mikael.cursomc.repositories.CategoryRepository;
+import com.mikael.cursomc.repositories.CityRepository;
 import com.mikael.cursomc.repositories.ProductRepository;
+import com.mikael.cursomc.repositories.StateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +24,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private CityRepository cityRepository;
+
+	@Autowired
+	private StateRepository stateRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -42,6 +52,16 @@ public class CursomcApplication implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 
+
+		State est1 = new State(null, "Minas Gerais");
+		State est2 = new State(null, "São Paulo");
+
+		City c1 = new City(null, "Uberlândia", est1);
+		City c2 = new City(null, "São Paulo", est2);
+		City c3 = new City(null, "Campinas", est2);
+
+		stateRepository.saveAll(Arrays.asList(est1, est2));
+		cityRepository.saveAll(Arrays.asList(c1, c2, c3));
 
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3));
