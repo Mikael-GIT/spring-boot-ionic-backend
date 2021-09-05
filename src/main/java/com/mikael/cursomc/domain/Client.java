@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -29,7 +30,6 @@ public class Client implements Serializable{
 	private String email;
 	private String cpfOuCnpj;
 	private Integer tipo;
-	
 	@JsonManagedReference
 	@OneToMany(mappedBy="cliente")
 	private List<Address> enderecos = new ArrayList<>();
@@ -38,6 +38,8 @@ public class Client implements Serializable{
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 	
+	@OneToMany(mappedBy="cliente")
+	private List<Order> pedidos = new ArrayList<>();
 	
 	public Client() {
 	}
@@ -106,6 +108,16 @@ public class Client implements Serializable{
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
 	}
+
+
+	public List<Order> getPedidos() {
+		return this.pedidos;
+	}
+
+	public void setPedidos(List<Order> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 
 	@Override
 	public int hashCode() {

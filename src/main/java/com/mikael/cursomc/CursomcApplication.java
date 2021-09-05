@@ -1,18 +1,26 @@
 package com.mikael.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import com.mikael.cursomc.domain.Address;
 import com.mikael.cursomc.domain.Category;
 import com.mikael.cursomc.domain.City;
 import com.mikael.cursomc.domain.Client;
+import com.mikael.cursomc.domain.Order;
+import com.mikael.cursomc.domain.Payment;
+import com.mikael.cursomc.domain.PaymentWithBankSlip;
+import com.mikael.cursomc.domain.PaymentWithCard;
 import com.mikael.cursomc.domain.Product;
 import com.mikael.cursomc.domain.State;
 import com.mikael.cursomc.domain.enums.ClientType;
+import com.mikael.cursomc.domain.enums.PaymentState;
 import com.mikael.cursomc.repositories.AddressRepository;
 import com.mikael.cursomc.repositories.CategoryRepository;
 import com.mikael.cursomc.repositories.CityRepository;
 import com.mikael.cursomc.repositories.ClientRepository;
+import com.mikael.cursomc.repositories.OrderRepository;
+import com.mikael.cursomc.repositories.PaymentRepository;
 import com.mikael.cursomc.repositories.ProductRepository;
 import com.mikael.cursomc.repositories.StateRepository;
 
@@ -27,6 +35,12 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -89,5 +103,20 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Order ped1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Order ped2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+		Payment pagto1 = new PaymentWithCard(null, PaymentState.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+
+		Payment pagto2 = new PaymentWithBankSlip(null, PaymentState.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		orderRepository.saveAll(Arrays.asList(ped1, ped2));
+		paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	} 
 }
