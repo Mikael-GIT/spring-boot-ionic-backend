@@ -8,6 +8,7 @@ import com.mikael.cursomc.domain.Category;
 import com.mikael.cursomc.domain.City;
 import com.mikael.cursomc.domain.Client;
 import com.mikael.cursomc.domain.Order;
+import com.mikael.cursomc.domain.OrderItem;
 import com.mikael.cursomc.domain.Payment;
 import com.mikael.cursomc.domain.PaymentWithBankSlip;
 import com.mikael.cursomc.domain.PaymentWithCard;
@@ -19,6 +20,7 @@ import com.mikael.cursomc.repositories.AddressRepository;
 import com.mikael.cursomc.repositories.CategoryRepository;
 import com.mikael.cursomc.repositories.CityRepository;
 import com.mikael.cursomc.repositories.ClientRepository;
+import com.mikael.cursomc.repositories.OrderItemRepository;
 import com.mikael.cursomc.repositories.OrderRepository;
 import com.mikael.cursomc.repositories.PaymentRepository;
 import com.mikael.cursomc.repositories.ProductRepository;
@@ -35,6 +37,9 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 
 	@Autowired
 	private PaymentRepository paymentRepository;
@@ -118,5 +123,18 @@ public class CursomcApplication implements CommandLineRunner {
 
 		orderRepository.saveAll(Arrays.asList(ped1, ped2));
 		paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+		OrderItem ip1 = new OrderItem(ped1, p1, 0.00, 1, 2000.00);
+		OrderItem ip2 = new OrderItem(ped1, p3, 0.00, 2, 80.00);
+		OrderItem ip3 = new OrderItem(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		orderItemRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	} 
 }
