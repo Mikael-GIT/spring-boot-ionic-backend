@@ -25,7 +25,7 @@ public class Address implements Serializable {
 	private String bairro;
 	private String cep;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Client cliente;
