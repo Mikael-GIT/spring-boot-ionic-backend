@@ -20,8 +20,8 @@ public class OrderResource {
     private OrderService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listar(@PathVariable Integer id){
-        Order obj = service.buscar(id);
+    public ResponseEntity<Order> listar(@PathVariable Integer id){
+        Order obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
 }
