@@ -1,5 +1,6 @@
 package com.mikael.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.mikael.cursomc.domain.Category;
@@ -19,6 +20,10 @@ public class CategoryService {
     public Category find(Integer id){
         Optional<Category> category = repository.findById(id);
         return category.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Category.class.getName()));
+    }
+
+    public List<Category> findAll(){
+        return repository.findAll();
     }
 
     public Category update(Category categoria){

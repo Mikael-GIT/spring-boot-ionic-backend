@@ -1,10 +1,14 @@
 package com.mikael.cursomc.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.websocket.server.PathParam;
 
 import com.mikael.cursomc.domain.Category;
+import com.mikael.cursomc.domain.dtos.CategoryDTO;
 import com.mikael.cursomc.services.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,13 @@ public class CategoryResource {
     public ResponseEntity<?> listar(@PathVariable Integer id){
         Category obj = service.find(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value="/")
+    public ResponseEntity<List<CategoryDTO>> listarTodos(){
+        List<Category> categorias = service.findAll();
+        List<CategoryDTO> categoriasDTO = categorias.stream().map(obj -> new CategoryDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(categoriasDTO);
     }
 
     @PutMapping(value="/{id}")
