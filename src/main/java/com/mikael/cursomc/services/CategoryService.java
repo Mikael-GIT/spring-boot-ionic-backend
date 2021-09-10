@@ -39,6 +39,7 @@ public class CategoryService {
         categoria.setId(null);
         return repository.save(categoria);
     }
+    
     public void delete(Integer id){
         find(id);
         try{
