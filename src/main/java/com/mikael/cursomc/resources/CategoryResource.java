@@ -12,6 +12,7 @@ import com.mikael.cursomc.domain.dtos.CategoryDTO;
 import com.mikael.cursomc.services.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -43,6 +45,17 @@ public class CategoryResource {
         return ResponseEntity.ok().body(categoriasDTO);
     }
 
+    @GetMapping(value="/page")
+    public ResponseEntity<Page<CategoryDTO>> listarPorPagina(
+        @RequestParam(value="page", defaultValue = "0") Integer page, 
+        @RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage, 
+        @RequestParam(value="orderBy", defaultValue = "nome") String orderBy, 
+        @RequestParam(value="direction", defaultValue = "ASC") String direction){
+        Page<Category> categorias = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> categoriasDTO = categorias.map(obj -> new CategoryDTO(obj));
+        return ResponseEntity.ok().body(categoriasDTO);
+    }
+
     @PutMapping(value="/{id}")
     public ResponseEntity<Void> atualizar(@RequestBody Category categoria, @PathVariable Integer id) {
         categoria.setId(id);
@@ -62,4 +75,6 @@ public class CategoryResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
