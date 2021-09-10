@@ -31,8 +31,10 @@ public class CategoryService {
     }
 
     public Category update(Category categoria){
-        find(categoria.getId());
-        return repository.save(categoria);
+        Category newObj = find(categoria.getId());
+        updateData(newObj, categoria); //Método auxiliar para atualizar apenas o nome e email recebendo o objeto do banco e o objeto que novo que foi
+        //passado na requisição, neste método pegaremos o que vem do objeto da requisição e setaremos os valores no objeto que será atualizado no banco.
+        return repository.save(newObj);
     }
 
     public Category insert(Category categoria){
@@ -56,5 +58,9 @@ public class CategoryService {
 
     public Category fromDTO(CategoryDTO objDTO){
         return new Category(objDTO.getId(), objDTO.getNome());
+    }
+
+    private void updateData(Category newObj, Category obj){
+        newObj.setNome(obj.getNome());
     }
 }
