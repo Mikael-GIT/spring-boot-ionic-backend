@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import com.mikael.cursomc.domain.Category;
@@ -57,16 +58,18 @@ public class CategoryResource {
     }
 
     @PutMapping(value="/{id}")
-    public ResponseEntity<Void> atualizar(@RequestBody Category categoria, @PathVariable Integer id) {
+    public ResponseEntity<Void> atualizar(@Valid @RequestBody CategoryDTO objDTO, @PathVariable Integer id) {
+        Category categoria = service.fromDTO(objDTO);
         categoria.setId(id);
         service.update(categoria);
         return ResponseEntity.noContent().build();
     }
     @PostMapping
-    public ResponseEntity<Void> adicionar(@RequestBody Category categoria){
-        categoria = service.insert(categoria);
+    public ResponseEntity<Void> adicionar(@Valid @RequestBody CategoryDTO objDTO){
+        Category obj = service.fromDTO(objDTO);
+        obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-        .path("/{id}").buildAndExpand(categoria.getId()).toUri(); //Pega a URI do novo recurso que foi inserido no POST
+        .path("/{id}").buildAndExpand(obj.getId()).toUri(); //Pega a URI do novo recurso que foi inserido no POST
         return ResponseEntity.created(uri).build(); //Retorna o HTTP Status 201 retornando a nova URI que passamos na linha anterior.
     }
 

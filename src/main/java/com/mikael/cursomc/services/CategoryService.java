@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.mikael.cursomc.domain.Category;
+import com.mikael.cursomc.domain.dtos.CategoryDTO;
 import com.mikael.cursomc.repositories.CategoryRepository;
 import com.mikael.cursomc.services.exceptions.DataIntegrityException;
 import com.mikael.cursomc.services.exceptions.ObjectNotFoundException;
@@ -51,4 +52,8 @@ public class CategoryService {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return repository.findAll(pageRequest);
     } 
+
+    public Category fromDTO(CategoryDTO objDTO){
+        return new Category(objDTO.getId(), objDTO.getNome());
+    }
 }
