@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -32,7 +33,8 @@ public class Client implements Serializable{
 	private String cpfOuCnpj;
 	private Integer tipo;
 
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente", cascade = CascadeType.ALL) //Toda operação que modificar um cliente, eu vou poder refletir em cascata lá nos endereços,
+	//se eu excluir um cliente, vou excluir também os endereços vinculados a ele.
 	private List<Address> enderecos = new ArrayList<>();
 	
 	@ElementCollection
