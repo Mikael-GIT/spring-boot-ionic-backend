@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer>{
-    
+    @org.springframework.transaction.annotation.Transactional(readOnly=true)
+    Client findByEmail(String email);
 }
