@@ -96,4 +96,6 @@ public class ClientService {
         newObj.setNome(obj.getNome());
         newObj.setEmail(obj.getEmail());
     }
+
+    
 }
