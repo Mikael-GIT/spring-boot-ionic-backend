@@ -21,11 +21,12 @@ public class OrderItem implements Serializable {
     private Integer quantidade;
     private Double preco;
 
-
-
     public OrderItem() {
     }
 
+    public Double getSubTotal(){
+        return (preco - desconto) * quantidade;
+    }
 
     public OrderItem(Order pedido, Product produto, Double desconto, Integer quantidade, Double preco) {
         id.setPedido(pedido);

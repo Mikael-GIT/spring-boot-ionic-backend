@@ -57,6 +57,13 @@ public class Order implements Serializable {
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
 
+    public Double getValorTotal(){
+        Double soma = 0.0;
+        for(OrderItem item: itens){
+            soma += item.getSubTotal();
+        }
+        return soma;
+    }
 
     public Integer getId() {
         return this.id;
