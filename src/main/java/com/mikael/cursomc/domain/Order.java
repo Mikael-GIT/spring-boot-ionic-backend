@@ -43,8 +43,8 @@ public class Order implements Serializable {
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Address enderecoDeEntrega;
 
-    @OneToMany(mappedBy = "id.pedido")
-    private Set<OrderItem> itens = new HashSet<>();
+    @OneToMany(mappedBy="id.pedido")
+	private Set<OrderItem> itens = new HashSet<>();
 
     public Order() {
     }
